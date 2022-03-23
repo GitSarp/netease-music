@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path: /netease
+  port: 8088
+  max-http-header-size: 100KB
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    password:
+    timeout: 3000
+
+#你的网易云配置
+netease:
+  phone: 手机号
+  password: 密码或md5加密后密码
+  uid: 你的用户id
+  apiHost: netease api服务地址，如http://localhost:3000
+
+#定时刷新歌曲url,单位s
+job:
+  schedule: 1140L
+
+#鉴权 不配置则不鉴权
+allowd:
+  apps:
+    appId: appSec
