@@ -452,7 +452,7 @@ public class RedisUtil implements ApplicationContextAware {
          * @date 2020/3/8 15:40:59
          */
         public static void set(String key, String value) {
-            log.info("set(...) => key -> {}, value -> {}", key, value);
+            //log.info("set(...) => key -> {}, value -> {}", key, value);
             redisTemplate.opsForValue().set(key, value);
         }
 
@@ -737,9 +737,9 @@ public class RedisUtil implements ApplicationContextAware {
          * @date 2020/3/8 16:27:41
          */
         public static String get(String key) {
-            log.info("get(...) => key -> {}", key);
+            //log.info("get(...) => key -> {}", key);
             String result = redisTemplate.opsForValue().get(key);
-            log.info("get(...) => result -> {} ", result);
+            //log.info("get(...) => result -> {} ", result);
             return result;
         }
 
@@ -863,7 +863,7 @@ public class RedisUtil implements ApplicationContextAware {
 
         public static void hPutObj(String key, Object entryKey, Object entryValue) {
             //log.info("hPut(...) => key -> {}, entryKey -> {}, entryValue -> {}", key, entryKey, entryValue);
-            log.info("hPut(...) => key -> {}", key);
+            //log.info("hPut(...) => key -> {}", key);
             objectRedisTemplate.opsForHash().put(key, entryKey, entryValue);
         }
 
@@ -919,7 +919,7 @@ public class RedisUtil implements ApplicationContextAware {
         }
 
         public static void hPutAllObj(String key, Map<Object, Object> maps) {
-            log.info("hPutAll(...) => key -> {}, maps -> {}", key, maps);
+            //log.info("hPutAll(...) => key -> {}, maps -> {}", key, maps);
             objectRedisTemplate.opsForHash().putAll(key, maps);
         }
 

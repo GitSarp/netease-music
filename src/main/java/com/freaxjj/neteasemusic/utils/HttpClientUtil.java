@@ -25,10 +25,6 @@ import java.util.Map;
 @Component
 public class HttpClientUtil {
     private static RestTemplate restTemplate = new RestTemplate();
-    //设置contentType
-    static {
-        restTemplate.getMessageConverters().add(new Jackson2HttpMessageConverter());
-    }
 
     public <T> T doGet(String url, Class<T> resp, Map<String, ?> params){
         T result=null;
@@ -74,10 +70,10 @@ public class HttpClientUtil {
 //        PlayList playList = httpClientUtil.doGet("http://localhost:3000/user/playlist?uid={uid}", PlayList.class, params);
 //        log.info("获取歌单列表成功：{}", JSON.toJSONString(playList));
 
-//        Map<String, String> params = new HashMap<>(2);
-//        params.put("id", "");
-//        PlayListDetail playListDetail = httpClientUtil.doGet("http://localhost:3000/playlist/detail?id={id}", PlayListDetail.class, params);
-//        log.info("获取歌单详情成功：{}", JSON.toJSONString(playListDetail));
+        Map<String, String> params = new HashMap<>(2);
+        params.put("id", "162790977");
+        PlayListDetail playListDetail = httpClientUtil.doGet("http://localhost:3000/playlist/detail?id={id}", PlayListDetail.class, params);
+        log.info("获取歌单详情成功：{}", JSON.toJSONString(playListDetail));
 
 //        Map<String, String> params = new HashMap<>(2);
 //        params.put("ids", "");

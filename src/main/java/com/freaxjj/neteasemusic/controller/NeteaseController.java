@@ -2,7 +2,6 @@ package com.freaxjj.neteasemusic.controller;
 
 import com.freaxjj.neteasemusic.config.AppConfig;
 import com.freaxjj.neteasemusic.service.NeteaseService;
-import com.freaxjj.neteasemusic.vo.FavoriteSong;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,9 +25,8 @@ public class NeteaseController {
     @Autowired
     private NeteaseService neteaseService;
 
-
     @GetMapping("/songs")
-    public List<FavoriteSong> getSongs(@NotBlank @RequestHeader String appId, @NotBlank @RequestHeader String appSec) {
+    public String getSongs(@NotBlank @RequestHeader String appId, @NotBlank @RequestHeader String appSec) {
         //后期业务扩展，再上拦截器吧^_^
         Map<String, String> apps = appConfig.getApps();
         if(!CollectionUtils.isEmpty(apps)) {
@@ -39,8 +36,7 @@ public class NeteaseController {
             }
         }
 
-        List<FavoriteSong> songs = neteaseService.getSongs(appId, appSec);
-        log.info("获取到共{}首歌曲！", songs.size());
+        String songs = neteaseService.getSongs(appId, appSec);
         return songs;
     }
 }

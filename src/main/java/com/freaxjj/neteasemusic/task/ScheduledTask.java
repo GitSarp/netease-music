@@ -3,8 +3,6 @@ package com.freaxjj.neteasemusic.task;
 import com.freaxjj.neteasemusic.service.NeteaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@PropertySource("classpath:application.yml")
 public class ScheduledTask {
     @Autowired
     private NeteaseService neteaseService;
@@ -23,13 +20,14 @@ public class ScheduledTask {
     /**
      * 凌晨30分定时刷新活动数据
      */
-    @Scheduled(fixedRate = 1140000)
+    @Scheduled(fixedRate = 1100000)
     public void refreshActivity() {
         try {
             neteaseService.login();
             neteaseService.saveSongs2Redis();
         }catch (Exception e){
-            log.error("任务执行失败: " + e.getMessage());
+            log.error("任务执行失败!");
+            e.printStackTrace();
         }
     }
 }

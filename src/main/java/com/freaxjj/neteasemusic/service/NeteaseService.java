@@ -5,7 +5,6 @@ import com.freaxjj.neteasemusic.consts.Consts;
 import com.freaxjj.neteasemusic.dto.Artist;
 import com.freaxjj.neteasemusic.dto.Song;
 import com.freaxjj.neteasemusic.dto.SongDetail;
-import com.freaxjj.neteasemusic.dto.SongURLDetail;
 import com.freaxjj.neteasemusic.helper.NeteaseHelper;
 import com.freaxjj.neteasemusic.utils.RedisUtil;
 import com.freaxjj.neteasemusic.vo.FavoriteSong;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,12 +33,10 @@ public class NeteaseService {
      * @param appSec
      * @return
      */
-    public List<FavoriteSong> getSongs(String appId, String appSec) {
+    public String getSongs(String appId, String appSec) {
         //从redis获取数据
-        Map<Object,Object> songs = RedisUtil.HashOps.hGetAllObj(Consts.REDIS_KEY_SONGS);
-        List<FavoriteSong> favoriteSongs = songs.entrySet().stream()
-                .map(e -> (FavoriteSong)e).collect(Collectors.toList());
-        return favoriteSongs;
+        String songs = RedisUtil.StringOps.get(Consts.REDIS_KEY_SONGS);
+        return songs;
     }
 
     /**
@@ -51,19 +46,16 @@ public class NeteaseService {
     public void saveSongs2Redis() throws Exception {
         //获取所有歌曲
         SongDetail songDetail = neteaseHelper.getSongs();
+
         //转化成前端需要的格式
         if(Objects.nonNull(songDetail) && !CollectionUtils.isEmpty(songDetail.getSongs())) {
+            List<FavoriteSong> songs = new ArrayList<>();
             songDetail.getSongs().forEach(song -> {
-                FavoriteSong favoriteSong;
-                try {
-                    favoriteSong = getSongURLDetail(song);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return;
-                }
-                //存入redis
-                RedisUtil.HashOps.hPutObj(Consts.REDIS_KEY_SONGS, song.getId(), favoriteSong);
+                FavoriteSong favoriteSong = transformSong(song);
+                songs.add(favoriteSong);
             });
+            //存入redis
+            RedisUtil.StringOps.set(Consts.REDIS_KEY_SONGS, JSON.toJSONString(songs));
         }
     }
 
@@ -85,14 +77,13 @@ public class NeteaseService {
      * @param song
      * @return
      */
-    private FavoriteSong getSongURLDetail(Song song) throws Exception {
+    private FavoriteSong transformSong(Song song) {
         FavoriteSong favoriteSong = new FavoriteSong();
         favoriteSong.setName(song.getName());
         favoriteSong.setCover(song.getAl().getPicUrl());
         String artist = song.getAr().stream().map(Artist::getName).collect(Collectors.joining(","));
         favoriteSong.setArtist(artist);
-        SongURLDetail songURLDetail = neteaseHelper.getSongUrlAvailable(song.getId());
-        favoriteSong.setUrl(songURLDetail.getUrl());
+        favoriteSong.setUrl(song.getUrl());
         return favoriteSong;
     }
 }

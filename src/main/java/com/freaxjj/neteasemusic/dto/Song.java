@@ -19,4 +19,9 @@ public class Song {
     private String name;
     private List<Artist> ar;
     private Album al;
+
+    /**
+     * 非原生返回字段
+     */
+    private String url;
 }
