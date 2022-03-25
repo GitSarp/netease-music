@@ -18,13 +18,13 @@ public class ScheduledTask {
     private NeteaseService neteaseService;
 
     /**
-     * 凌晨30分定时刷新活动数据
+     * 定时刷新数据
+     * 取消定时任务，由客户端触发
      */
-    @Scheduled(fixedRate = 1100000)
+    //@Scheduled(fixedRate = 1100000)
     public void refreshActivity() {
         try {
-            neteaseService.login();
-            neteaseService.saveSongs2Redis();
+            neteaseService.getSongs();
         }catch (Exception e){
             log.error("任务执行失败!");
             e.printStackTrace();

@@ -506,8 +506,8 @@ public class RedisUtil implements ApplicationContextAware {
          * @date 2020/3/8 15:40:59
          */
         public static void setEx(String key, String value, long timeout, TimeUnit unit) {
-            log.info("setEx(...) => key -> {}, value -> {}, timeout -> {}, unit -> {}",
-                    key, value, timeout, unit);
+//            log.info("setEx(...) => key -> {}, value -> {}, timeout -> {}, unit -> {}",
+//                    key, value, timeout, unit);
             redisTemplate.opsForValue().set(key, value, timeout, unit);
         }
 

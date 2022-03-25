@@ -32,4 +32,9 @@ public class Consts {
     public static final String REDIS_KEY_SONGS = "key-songs";
     public static final String REDIS_KEY_COOKIE = "key-cookie";
 
+    /**
+     * url expire
+     */
+    public static final Integer TIME_URL_EXPIRE = 580;
+
 }

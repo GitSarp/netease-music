@@ -19,10 +19,6 @@ netease:
   uid: 你的用户id
   apiHost: netease api服务地址，如http://localhost:3000
 
-#定时刷新歌曲url,单位s
-job:
-  schedule: 1140L
-
 #鉴权 不配置则不鉴权
 allowd:
   apps:

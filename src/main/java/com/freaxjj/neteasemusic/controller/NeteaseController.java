@@ -26,8 +26,8 @@ public class NeteaseController {
     private NeteaseService neteaseService;
 
     @GetMapping("/songs")
-    public String getSongs(@NotBlank @RequestHeader String appId, @NotBlank @RequestHeader String appSec) {
-        //后期业务扩展，再上拦截器吧^_^
+    public String getSongs(@NotBlank @RequestHeader String appId, @NotBlank @RequestHeader String appSec) throws Exception {
+        //后期业务扩展，再上拦截器吧^_^ 也懒得做加签啥的了
         Map<String, String> apps = appConfig.getApps();
         if(!CollectionUtils.isEmpty(apps)) {
             if(!appSec.equals(apps.get(appId))) {
@@ -36,7 +36,7 @@ public class NeteaseController {
             }
         }
 
-        String songs = neteaseService.getSongs(appId, appSec);
+        String songs = neteaseService.getSongs();
         return songs;
     }
 }
