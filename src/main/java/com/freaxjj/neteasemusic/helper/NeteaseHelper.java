@@ -127,8 +127,6 @@ public class NeteaseHelper {
     private <T> T doRequest(HttpMethod httpMethod, String url, Class<T> tClass, Map<String, Object> params) throws Exception {
         //加时间戳，防止netease api缓存报错
         params.put("timestamp", System.currentTimeMillis());
-        //vercel部署
-        //params.put("realIP", "183.160.213.218");
         //设置cookie
         HttpEntity<Map<String,Object>> request = null;
         if(!Consts.URL_LOGIN.equals(url)) {
