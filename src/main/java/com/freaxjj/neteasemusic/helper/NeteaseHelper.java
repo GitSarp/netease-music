@@ -30,7 +30,7 @@ public class NeteaseHelper {
     private String apiHost;
     private List<String> cookies;
 
-    public NeteaseHelper(@Autowired NeteaseConfig neteaseConfig, @Autowired HttpClientUtil httpClientUtil){
+    public NeteaseHelper(@Autowired NeteaseConfig neteaseConfig, @Autowired HttpClientUtil httpClientUtil) {
         this.neteaseConfig = neteaseConfig;
         this.httpClientUtil = httpClientUtil;
         this.apiHost = neteaseConfig.getApiHost();
@@ -38,6 +38,7 @@ public class NeteaseHelper {
 
     /**
      * 聚合
+     *
      * @return 喜欢的歌原始数据
      */
     public SongDetail getSongs() throws Exception {
@@ -46,13 +47,13 @@ public class NeteaseHelper {
         SongDetail songDetail = null;
         //获取歌单列表
         PlayList playList = getPlayList();
-        if(Objects.nonNull(playList) && !CollectionUtils.isEmpty(playList.getPlaylist())) {
+        if (Objects.nonNull(playList) && !CollectionUtils.isEmpty(playList.getPlaylist())) {
             Long playId = playList.getPlaylist().get(0).getId();
             //获取最喜欢的歌单
             PlayListDetail playListDetail = getPlayDetail(playId);
-            if(Objects.nonNull(playListDetail) && Objects.nonNull(playListDetail.getPlaylist())) {
+            if (Objects.nonNull(playListDetail) && Objects.nonNull(playListDetail.getPlaylist())) {
                 List<Track> tracks = playListDetail.getPlaylist().getTrackIds();
-                if(!CollectionUtils.isEmpty(tracks)) {
+                if (!CollectionUtils.isEmpty(tracks)) {
                     String trackStr = tracks.stream()
                             .map(track -> String.valueOf(track.getId()))
                             .collect(Collectors.joining(","));
@@ -74,7 +75,7 @@ public class NeteaseHelper {
                 }
             }
         }
-        log.info("获取歌曲{}条，耗时(s)：{}...", songDetail.getSongs().size() ,(System.currentTimeMillis() - startTime) / 1000);
+        log.info("获取歌曲{}条，耗时(s)：{}...", songDetail.getSongs().size(), (System.currentTimeMillis() - startTime) / 1000);
         return songDetail;
     }
 
@@ -90,6 +91,19 @@ public class NeteaseHelper {
         String cookieStr = (String) resp.get(Consts.HTTP_RESP_COOKIE);
         cookies = Arrays.stream(cookieStr.split(";;")).collect(Collectors.toList());
         return resp;
+    }
+
+    /**
+     * 刷新登录
+     *
+     * @throws Exception
+     */
+    public String loginRefresh() throws Exception {
+        Map<String, Object> params = new HashMap<>(2);
+        Object refreshRes = doRequest(HttpMethod.POST, Consts.URL_LOGIN_REFRESH, Object.class, params);
+        String res = JSON.toJSONString(refreshRes);
+        log.info("刷新登录返回：{}", res);
+        return res;
     }
 
     private PlayList getPlayList() throws Exception {
@@ -127,21 +141,22 @@ public class NeteaseHelper {
     private <T> T doRequest(HttpMethod httpMethod, String url, Class<T> tClass, Map<String, Object> params) throws Exception {
         //加时间戳，防止netease api缓存报错
         params.put("timestamp", System.currentTimeMillis());
+        params.put("realIP", "183.160.213.218");
+        HttpEntity<Map<String, Object>> request = null;
         //设置cookie
-        HttpEntity<Map<String,Object>> request = null;
-        if(!Consts.URL_LOGIN.equals(url)) {
+        if (!Consts.URL_LOGIN.equals(url)) {
             HttpHeaders headers = new HttpHeaders();
             headers.put(HttpHeaders.COOKIE, cookies);
-            request = new HttpEntity<>(params,headers);
+            request = new HttpEntity<>(params, headers);
         }
         //拼接url
         url = Consts.getUrl(apiHost, url);
 
         T resp = null;
-        if(HttpMethod.GET.equals(httpMethod)) {
+        if (HttpMethod.GET.equals(httpMethod)) {
             resp = httpClientUtil.doGet(url, tClass, params);
-        }else if(HttpMethod.POST.equals(httpMethod)) {
-            if(Objects.isNull(request)) {
+        } else if (HttpMethod.POST.equals(httpMethod)) {
+            if (Objects.isNull(request)) {
                 resp = httpClientUtil.doPost(url, tClass, params);
             } else {
                 resp = httpClientUtil.doPost(url, request, tClass);
@@ -149,9 +164,25 @@ public class NeteaseHelper {
         }
 
         Map<String, Object> respMap = (Map<String, Object>) JSON.toJSON(resp);
-        if(CollectionUtils.isEmpty(respMap) || !Consts.HTTP_RESP_OK.equals(respMap.get(Consts.HTTP_RESP_CODE))) {
-            throw new Exception("请求接口"+ url +"失败！接口返回：" + JSON.toJSONString(respMap));
+        Object resCode = respMap.get(Consts.HTTP_RESP_CODE);
+        //返回结果检查
+        if (Consts.HTTP_RESP_OK.equals(resCode)) {
+            return resp;
+        } else if (Consts.HTTP_RESP_NEED_LOGIN.equals(resCode)) {
+            //刷新登录
+            loginRefresh();
+            //重新调用
+            resp = doRequest(httpMethod, url, tClass, params);
+            respMap = (Map<String, Object>) JSON.toJSON(resp);
+            resCode = respMap.get(Consts.HTTP_RESP_CODE);
+            if (!Consts.HTTP_RESP_OK.equals(resCode)) {
+                throw new Exception("请求接口" + url + "失败！接口返回：" + JSON.toJSONString(respMap));
+            } else {
+                return resp;
+            }
+        } else {
+            throw new Exception("请求接口" + url + "失败！接口返回：" + JSON.toJSONString(resp));
         }
-        return resp;
+
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -48,8 +49,6 @@ public class NeteaseService {
             return songsInfo;
         }
 
-        //登录
-        login();
         //获取所有歌曲
         SongDetail songDetail = neteaseHelper.getSongs();
         //转化成前端需要的格式
@@ -78,6 +77,10 @@ public class NeteaseService {
         if(Objects.isNull(resp) || !Consts.HTTP_RESP_OK.equals(resp.get(Consts.HTTP_RESP_CODE))) {
             throw new Exception("登录错误！");
         }
+    }
+
+    public String refreshLogin() throws Exception {
+        return neteaseHelper.loginRefresh();
     }
 
     /**

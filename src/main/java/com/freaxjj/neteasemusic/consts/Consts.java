@@ -10,6 +10,7 @@ public class Consts {
      * 请求接口
      */
     public static final String URL_LOGIN = "/login/cellphone";
+    public static final String URL_LOGIN_REFRESH = "/login/refresh";
     public static final String URL_PLAYLIST = "/user/playlist";
     public static final String URL_PLAYLIST_DETAIL = "/playlist/detail";
     public static final String URL_SONG_DETAIL = "/song/detail";
@@ -23,6 +24,7 @@ public class Consts {
      * 接口返回
      */
     public static final Integer HTTP_RESP_OK = 200;
+    public static final Integer HTTP_RESP_NEED_LOGIN = 301;
     public static final String HTTP_RESP_CODE = "code";
     public static final String HTTP_RESP_COOKIE = "cookie";
 

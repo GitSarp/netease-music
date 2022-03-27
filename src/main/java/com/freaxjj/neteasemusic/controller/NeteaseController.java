@@ -39,4 +39,9 @@ public class NeteaseController {
         String songs = neteaseService.getSongs();
         return songs;
     }
+
+    @GetMapping("/refresh")
+    public String refreshLogin() throws Exception {
+        return neteaseService.refreshLogin();
+    }
 }

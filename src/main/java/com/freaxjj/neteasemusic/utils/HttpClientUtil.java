@@ -65,15 +65,15 @@ public class HttpClientUtil {
 //        Object resp = httpClientUtil.doPost("http://localhost:3000/login/cellphone", Object.class, params);
 //        log.info("登录成功：{}", JSON.toJSONString(resp));
 
-//        Map<String, String> params = new HashMap<>(2);
-//        params.put("uid", "");
-//        PlayList playList = httpClientUtil.doGet("http://localhost:3000/user/playlist?uid={uid}", PlayList.class, params);
-//        log.info("获取歌单列表成功：{}", JSON.toJSONString(playList));
-
         Map<String, String> params = new HashMap<>(2);
-        params.put("id", "162790977");
-        PlayListDetail playListDetail = httpClientUtil.doGet("http://localhost:3000/playlist/detail?id={id}", PlayListDetail.class, params);
-        log.info("获取歌单详情成功：{}", JSON.toJSONString(playListDetail));
+        params.put("uid", "");
+        PlayList playList = httpClientUtil.doGet("http://localhost:3000/user/playlist?uid={uid}", PlayList.class, params);
+        log.info("获取歌单列表成功：{}", JSON.toJSONString(playList));
+
+//        Map<String, String> params = new HashMap<>(2);
+//        params.put("id", "162790977");
+//        PlayListDetail playListDetail = httpClientUtil.doGet("http://localhost:3000/playlist/detail?id={id}", PlayListDetail.class, params);
+//        log.info("获取歌单详情成功：{}", JSON.toJSONString(playListDetail));
 
 //        Map<String, String> params = new HashMap<>(2);
 //        params.put("ids", "");
