@@ -71,7 +71,7 @@ public class HttpClientUtil {
         log.info("获取歌单列表成功：{}", JSON.toJSONString(playList));
 
 //        Map<String, String> params = new HashMap<>(2);
-//        params.put("id", "162790977");
+//        params.put("id", "");
 //        PlayListDetail playListDetail = httpClientUtil.doGet("http://localhost:3000/playlist/detail?id={id}", PlayListDetail.class, params);
 //        log.info("获取歌单详情成功：{}", JSON.toJSONString(playListDetail));
 

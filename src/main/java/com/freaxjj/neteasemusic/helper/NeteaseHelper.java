@@ -90,6 +90,7 @@ public class NeteaseHelper {
         //保存cookie
         String cookieStr = (String) resp.get(Consts.HTTP_RESP_COOKIE);
         cookies = Arrays.stream(cookieStr.split(";;")).collect(Collectors.toList());
+        log.info("登录返回：{}", JSON.toJSONString(resp));
         return resp;
     }
 
@@ -139,11 +140,11 @@ public class NeteaseHelper {
     }
 
     private <T> T doRequest(HttpMethod httpMethod, String url, Class<T> tClass, Map<String, Object> params) throws Exception {
-        //加时间戳，防止netease api缓存报错
+        //加时间戳，防止netease api缓存
         params.put("timestamp", System.currentTimeMillis());
         params.put("realIP", "183.160.213.218");
         HttpEntity<Map<String, Object>> request = null;
-        //设置cookie
+        //跨域需要设置cookie
         if (!Consts.URL_LOGIN.equals(url)) {
             HttpHeaders headers = new HttpHeaders();
             headers.put(HttpHeaders.COOKIE, cookies);
@@ -168,9 +169,15 @@ public class NeteaseHelper {
         //返回结果检查
         if (Consts.HTTP_RESP_OK.equals(resCode)) {
             return resp;
-        } else if (Consts.HTTP_RESP_NEED_LOGIN.equals(resCode)) {
-            //刷新登录
-            loginRefresh();
+        } else if (Consts.HTTP_RESP_REDIRECT.equals(resCode) || Consts.HTTP_RESP_NEED_LOGIN.equals(resCode)){
+            if(Consts.HTTP_RESP_REDIRECT.equals(resCode)){
+                //刷新登录
+                loginRefresh();
+            }else if(Consts.HTTP_RESP_NEED_LOGIN.equals(resCode)){
+                //重新登录
+                login();
+            }
+
             //重新调用
             resp = doRequest(httpMethod, url, tClass, params);
             respMap = (Map<String, Object>) JSON.toJSON(resp);

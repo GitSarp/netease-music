@@ -60,7 +60,7 @@ public class NeteaseService {
             });
             //存入redis
             songsInfo = JSON.toJSONString(songs);
-            //设置有效期为一半(预留40s为处理时间,(1200-40) > 2),客户端时间间隔应保持一致
+            //设置有效期为一半(预留40s为处理时间,(1200-40) / 2),客户端时间间隔应小于等于此值
             RedisUtil.StringOps.setEx(Consts.REDIS_KEY_SONGS, songsInfo, Consts.TIME_URL_EXPIRE, TimeUnit.SECONDS);
         }
         return songsInfo;
@@ -73,7 +73,6 @@ public class NeteaseService {
      */
     public void login() throws Exception {
         Map resp = neteaseHelper.login();
-        log.info("登录成功：{}", JSON.toJSONString(resp));
         if(Objects.isNull(resp) || !Consts.HTTP_RESP_OK.equals(resp.get(Consts.HTTP_RESP_CODE))) {
             throw new Exception("登录错误！");
         }

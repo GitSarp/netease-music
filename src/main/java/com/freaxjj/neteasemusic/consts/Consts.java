@@ -24,7 +24,8 @@ public class Consts {
      * 接口返回
      */
     public static final Integer HTTP_RESP_OK = 200;
-    public static final Integer HTTP_RESP_NEED_LOGIN = 301;
+    public static final Integer HTTP_RESP_REDIRECT = 301;
+    public static final Integer HTTP_RESP_NEED_LOGIN = 20001;
     public static final String HTTP_RESP_CODE = "code";
     public static final String HTTP_RESP_COOKIE = "cookie";
 
