@@ -5,6 +5,7 @@ import com.freaxjj.neteasemusic.service.NeteaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @Date: 3/23/22 10:03 AM
  */
 @Slf4j
+@CrossOrigin(origins = {"http://v.freaxjj.site", "https://v.freaxjj.site", "http://v.freaxjj.tk", "https://v.freaxjj.tk"})
 @RestController
 public class NeteaseController {
     @Autowired
