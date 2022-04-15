@@ -28,7 +28,7 @@ public class NeteaseHelper {
     private NeteaseConfig neteaseConfig;
     private HttpClientUtil httpClientUtil;
     private String apiHost;
-    private List<String> cookies;
+    public static List<String> cookies;
 
     public NeteaseHelper(@Autowired NeteaseConfig neteaseConfig, @Autowired HttpClientUtil httpClientUtil) {
         this.neteaseConfig = neteaseConfig;

@@ -41,6 +41,6 @@ public class Consts {
     /**
      * url expire
      */
-    public static final Integer TIME_URL_EXPIRE = 580;
+    public static final Integer TIME_URL_EXPIRE = 600;
 
 }

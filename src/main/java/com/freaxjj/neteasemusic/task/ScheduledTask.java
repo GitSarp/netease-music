@@ -1,10 +1,12 @@
 package com.freaxjj.neteasemusic.task;
 
+import com.freaxjj.neteasemusic.helper.NeteaseHelper;
 import com.freaxjj.neteasemusic.service.NeteaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @Author: freaxjj
@@ -18,15 +20,24 @@ public class ScheduledTask {
     private NeteaseService neteaseService;
 
     /**
-     * 定时刷新数据
-     * 取消定时任务，由客户端触发
+     * 定时获取歌曲url
      */
-    //@Scheduled(fixedRate = 1100000)
-    public void refreshActivity() {
+    @Scheduled(fixedRate = 580000)
+    public void getSongsTimely() {
+        //等待登录后获取歌曲url
+        while (CollectionUtils.isEmpty(NeteaseHelper.cookies)){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        log.info("定时获取歌曲开始...");
         try {
-            neteaseService.getSongs();
+            neteaseService.getSongsFromAPI();
         }catch (Exception e){
-            log.error("任务执行失败!");
+            log.error("通过API获取歌曲失败!");
             e.printStackTrace();
         }
     }

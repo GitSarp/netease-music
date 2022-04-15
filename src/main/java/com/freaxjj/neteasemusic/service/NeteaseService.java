@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -38,20 +40,27 @@ public class NeteaseService {
     }
 
     /**
-     * 调用接口获取歌曲数据，并存入redis
-     * 由定时任务调用
+     * 前端获取歌曲接口
+     * 由前端调用
      */
-    public String getSongs() throws Exception {
+    public String getSongs() {
         //从redis获取数据
         String songsInfo = getSongsFromRedis();
-        if(StringUtils.hasLength(songsInfo)){
-            return songsInfo;
-        }
+        return songsInfo;
+    }
 
+    /**
+     * 通过api获取歌曲
+     * 保证同时只有一个线程先执行，设置完redis后唤醒其他线程，其他线程从redis中直接获取
+     * @return
+     * @throws Exception
+     */
+    public String getSongsFromAPI() throws Exception {
+        String songsInfo = "";
         //获取所有歌曲
         SongDetail songDetail = neteaseHelper.getSongs();
         //转化成前端需要的格式
-        if(Objects.nonNull(songDetail) && !CollectionUtils.isEmpty(songDetail.getSongs())) {
+        if (Objects.nonNull(songDetail) && !CollectionUtils.isEmpty(songDetail.getSongs())) {
             List<FavoriteSong> songs = new ArrayList<>();
             songDetail.getSongs().forEach(song -> {
                 FavoriteSong favoriteSong = transformSong(song);
@@ -59,10 +68,11 @@ public class NeteaseService {
             });
             //存入redis
             songsInfo = JSON.toJSONString(songs);
-            //设置有效期为一半(预留40s为处理时间,(1200-40) / 2),客户端时间间隔应小于等于此值
+            //设置有效期为一半(1200 / 2),客户端时间间隔应小于等于此值
             RedisUtil.StringOps.setEx(Consts.REDIS_KEY_SONGS, songsInfo, Consts.TIME_URL_EXPIRE, TimeUnit.SECONDS);
         }
         return songsInfo;
+
     }
 
     /**
