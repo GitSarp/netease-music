@@ -6,6 +6,9 @@ package com.freaxjj.neteasemusic.consts;
  * @Date: 3/22/22 10:53 PM
  */
 public class Consts {
+    public static final String INSECURE_HTTP = "http:";
+    public static final String SECURE_HTTP = "https:";
+
     /**
      * 请求接口
      */

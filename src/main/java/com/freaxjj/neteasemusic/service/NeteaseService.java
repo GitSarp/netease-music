@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -93,7 +92,12 @@ public class NeteaseService {
         favoriteSong.setCover(song.getAl().getPicUrl());
         String artist = song.getAr().stream().map(Artist::getName).collect(Collectors.joining(","));
         favoriteSong.setArtist(artist);
-        favoriteSong.setUrl(song.getUrl());
+        String url = song.getUrl();
+        if(Objects.nonNull(url) && url.startsWith(Consts.INSECURE_HTTP)){
+            favoriteSong.setUrl(Consts.SECURE_HTTP.concat(url.substring(5)));
+        }else {
+            favoriteSong.setUrl(url);
+        }
         return favoriteSong;
     }
 }
