@@ -19,7 +19,8 @@ import java.util.Map;
  * @Date: 3/23/22 10:03 AM
  */
 @Slf4j
-@CrossOrigin(origins = {"http://v.freaxjj.site", "https://v.freaxjj.site", "http://v.freaxjj.tk", "https://v.freaxjj.tk"})
+@CrossOrigin(origins = {"http://*.freaxjj.site", "https://*.freaxjj.site",
+        "http://*.freaxjj.tk", "https://*.freaxjj.tk"})
 @RestController
 public class NeteaseController {
     @Autowired
