@@ -6,11 +6,13 @@ RUN echo "Asia/Shanghai" > /etc/timezone
 VOLUME /home/logs
 WORKDIR /home
 
-ENV jvm_setting ''
+RUN mvn clean package
 
 ADD ./target/*.jar /home/netease-music.jar
 
 RUN chmod -x netease-music.jar
+
+ENV jvm_setting ''
 
 ENTRYPOINT exec java -Dfile.encoding=utf-8 \
  -Dspring.profiles.active=prod \
