@@ -1,12 +1,10 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM kdvolder/jdk8
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
 
 VOLUME /home/logs
 WORKDIR /home
-
-RUN mvn clean package
 
 ADD ./target/*.jar /home/netease-music.jar
 

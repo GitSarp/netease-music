@@ -69,42 +69,28 @@
                     </excludes>
                 </configuration>
             </plugin>
-            
+
             <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.37.0</version>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <!-- Docker 推送镜像仓库地址-->
-                    <pushRegistry>https://registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/netease-music</pushRegistry>
-                    <images>
-                        <image>
-                            <!--推送到私有镜像仓库，镜像名需要添加仓库地址-->
-                            <name>https://registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/netease-music/${project.name}:${project.version}</name>
-                            <!--定义镜像构建行为-->
-                            <build>
-                                <dockerFileDir>${project.basedir}</dockerFileDir>
-                            </build>
-                            <run>
-                                <!--设置容器名，可采用通配符-->
-                                <containerNamePattern>${project.artifactId}</containerNamePattern>
-                                <!--设置端口映射-->
-                                <ports>
-                                    <port>8088:8088</port>
-                                </ports>
-                                <!--设置容器间连接-->
-<!--                                <links>-->
-<!--                                    <link>mysql:db</link>-->
-<!--                                </links>-->
-                                <!--设置容器和宿主机目录挂载-->
-                                <volumes>
-                                    <bind>
-                                        <volume>/etc/localtime:/etc/localtime</volume>
-                                    </bind>
-                                </volumes>
-                            </run>
-                        </image>
-                    </images>
+                    <username></username>
+                    <password></password>
+                    <repository>registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
