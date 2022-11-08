@@ -71,28 +71,70 @@
             </plugin>
 
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.13</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.37.0</version>
                 <configuration>
-                    <username></username>
-                    <password></password>
-                    <repository>registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
+                    <!--<dockerHost>可以配置在环境变量中</dockerHost>-->
+                    <!-- 私服Harbor地址，全局配置，如果需要推送到不同地址，可在image标签下配置 不能加https-->
+                    <registry>registry.cn-hangzhou.aliyuncs.com</registry>
+                    <!-- 可以配置到maven的setting文件中 -->
+                    <authConfig>
+                        <username></username>
+                        <password></password>
+                    </authConfig>
+                    <images>
+                        <image>
+                            <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
+                            <!-- 镜像名称，格式为：命名空间/仓库名称:镜像版本号 -->
+                            <name>freaxjj_dev/${project.build.finalName}:${project.version}</name>
+                            <!--别名:用于容器命名和在docker-compose.yml文件只能找到对应名字的配置-->
+                            <alias>${project.name}</alias>
+                            <build>
+                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                            </build>
+                            <!--配置docker-compose文件-->
+                            <!--                            <external>-->
+                            <!--                                <type>compose</type>-->
+                            <!--                                <basedir>${project.basedir}/docker</basedir>-->
+                            <!--                                <composeFile>docker-compose.yml</composeFile>-->
+                            <!--                            </external>-->
+                            <!--容器run相关配置-->
+                            <run>
+                                <!--配置运行时容器命名策略为:别名,如果不指定则默认为none,即使用随机分配名称-->
+                                <namingStrategy>alias</namingStrategy>
+                            </run>
+                        </image>
+                    </images>
                     <buildArgs>
+                        <!-- dockerfile参数，指定jar路径 -->
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.spotify</groupId>-->
+<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
+<!--                <version>1.4.13</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>default</id>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                            <goal>push</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <username></username>-->
+<!--                    <password></password>-->
+<!--                    <repository>registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/${project.artifactId}</repository>-->
+<!--                    <tag>${project.version}</tag>-->
+<!--                    <buildArgs>-->
+<!--                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>-->
+<!--                    </buildArgs>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
