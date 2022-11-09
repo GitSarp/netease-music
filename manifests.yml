@@ -38,7 +38,7 @@ spec:
 #        - env:
 #            - name: profile
 #              value: prod
-          image: 'registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/netease-music:0.0.1-SNAPSHOT'
+        - image: 'registry.cn-hangzhou.aliyuncs.com/freaxjj_dev/netease-music:0.0.1-SNAPSHOT'
           imagePullPolicy: Always
           name: netease-music-test
           resources:
