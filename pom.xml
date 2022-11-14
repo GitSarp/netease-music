@@ -78,11 +78,21 @@
                     <!--<dockerHost>可以配置在环境变量中</dockerHost>-->
                     <!-- 私服Harbor地址，全局配置，如果需要推送到不同地址，可在image标签下配置 不能加https-->
                     <registry>registry.cn-hangzhou.aliyuncs.com</registry>
-                    <!-- 可以配置到maven的setting文件中 -->
-                    <authConfig>
-                        <username></username>
-                        <password></password>
-                    </authConfig>
+                    <!-- 可以配置到maven的setting文件中(server的id应该与registry一致) -->
+<!--                    <authConfig>-->
+<!--                        <username></username>-->
+<!--                        <password></password>-->
+<!--                    </authConfig>-->
+                    <!--绑定mvn过程-->
+                    <!--                <executions>-->
+                    <!--                    <execution>-->
+                    <!--                        <id>default</id>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>build</goal>-->
+                    <!--                            <goal>push</goal>-->
+                    <!--                        </goals>-->
+                    <!--                    </execution>-->
+                    <!--                </executions>-->
                     <images>
                         <image>
                             <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
@@ -103,6 +113,16 @@
                             <run>
                                 <!--配置运行时容器命名策略为:别名,如果不指定则默认为none,即使用随机分配名称-->
                                 <namingStrategy>alias</namingStrategy>
+                                <!--设置容器间连接-->
+                                <!--                                <links>-->
+                                <!--                                    <link>mysql:db</link>-->
+                                <!--                                </links>-->
+                                <!--设置容器和宿主机目录挂载-->
+                                <volumes>
+                                    <bind>
+                                        <volume>/etc/localtime:/etc/localtime</volume>
+                                    </bind>
+                                </volumes>
                             </run>
                         </image>
                     </images>
