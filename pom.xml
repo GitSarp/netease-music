@@ -77,12 +77,13 @@
                 <configuration>
                     <!--<dockerHost>可以配置在环境变量中</dockerHost>-->
                     <!-- 私服Harbor地址，全局配置，如果需要推送到不同地址，可在image标签下配置 不能加https-->
-                    <registry>registry.cn-hangzhou.aliyuncs.com</registry>
+                    <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
+                    <registry>152.69.206.48:5001</registry>
                     <!-- 可以配置到maven的setting文件中 -->
-                    <authConfig>
-                        <username></username>
-                        <password></password>
-                    </authConfig>
+<!--                    <authConfig>-->
+<!--                        <username></username>-->
+<!--                        <password></password>-->
+<!--                    </authConfig>-->
                     <images>
                         <image>
                             <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->

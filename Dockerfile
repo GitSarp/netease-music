@@ -1,5 +1,5 @@
 #FROM kdvolder/jdk8
-FROM unitfinance/jdk17-sbt-scala
+FROM 152.69.206.48:5000/unitfinance/jdk17-sbt-scala
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
