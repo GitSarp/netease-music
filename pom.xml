@@ -88,7 +88,7 @@
                         <image>
                             <registry>152.69.206.48:5001</registry>
                             <!-- 镜像名称，格式为：命名空间/镜像名称:镜像tag -->
-                            <name>freaxjj_dev/${project.build.finalName}:${project.version}</name>
+                            <name>freaxjj-docker/${project.build.finalName}:${project.version}</name>
                             <!--<name>152.69.206.48:5001/freaxjj_dev/${project.build.finalName}:latest</name>-->
                             <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
                             <!-- 镜像名称，格式为：命名空间/仓库名称:镜像版本号 -->
