@@ -76,29 +76,23 @@
                 <version>0.37.0</version>
                 <configuration>
                     <!--<dockerHost>可以配置在环境变量中</dockerHost>-->
-                    <!-- 私服Harbor地址，全局配置，如果需要推送到不同地址，可在image标签下配置 不能加https-->
+                    <!-- 私服地址，全局配置，不能加https-->
                     <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
-                    <registry>152.69.206.48:5001</registry>
-                    <!-- 可以配置到maven的setting文件中(server的id应该与registry一致) -->
+<!--                    <registry>152.69.206.48:5001</registry>-->
+                    <!-- 可以配置到maven的setting文件中(server的id应该与nexus中的仓库名一致) -->
 <!--                    <authConfig>-->
 <!--                        <username></username>-->
 <!--                        <password></password>-->
 <!--                    </authConfig>-->
-                    <!--绑定mvn过程-->
-                    <!--                <executions>-->
-                    <!--                    <execution>-->
-                    <!--                        <id>default</id>-->
-                    <!--                        <goals>-->
-                    <!--                            <goal>build</goal>-->
-                    <!--                            <goal>push</goal>-->
-                    <!--                        </goals>-->
-                    <!--                    </execution>-->
-                    <!--                </executions>-->
                     <images>
                         <image>
+                            <registry>152.69.206.48:5001</registry>
+                            <!-- 镜像名称，格式为：命名空间/镜像名称:镜像tag -->
+                            <name>freaxjj_dev/${project.build.finalName}:${project.version}</name>
+                            <!--<name>152.69.206.48:5001/freaxjj_dev/${project.build.finalName}:latest</name>-->
                             <!--<registry>registry.cn-hangzhou.aliyuncs.com</registry>-->
                             <!-- 镜像名称，格式为：命名空间/仓库名称:镜像版本号 -->
-                            <name>freaxjj_dev/${project.build.finalName}:${project.version}</name>
+                            <!--<name>freaxjj_dev/${project.build.finalName}:${project.version}</name>-->
                             <!--别名:用于容器命名和在docker-compose.yml文件只能找到对应名字的配置-->
                             <alias>${project.name}</alias>
                             <build>
