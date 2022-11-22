@@ -80,10 +80,15 @@ public class NeteaseService {
      * 由定时任务调用
      * @throws Exception
      */
-    public void login() throws Exception {
-        Map resp = neteaseHelper.login();
-        if(Objects.isNull(resp) || !Consts.HTTP_RESP_OK.equals(resp.get(Consts.HTTP_RESP_CODE))) {
-            throw new Exception("登录错误！");
+    public void login()  {
+        //不再抛出异常
+        try {
+            Map resp = neteaseHelper.login();
+            if(Objects.isNull(resp) || !Consts.HTTP_RESP_OK.equals(resp.get(Consts.HTTP_RESP_CODE))) {
+                throw new Exception("登录错误！");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

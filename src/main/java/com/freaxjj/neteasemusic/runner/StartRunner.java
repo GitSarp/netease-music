@@ -19,7 +19,7 @@ public class StartRunner implements ApplicationRunner {
     private NeteaseService neteaseService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         //登录
         neteaseService.login();
     }
