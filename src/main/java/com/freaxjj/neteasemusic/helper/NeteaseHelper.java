@@ -149,6 +149,8 @@ public class NeteaseHelper {
             HttpHeaders headers = new HttpHeaders();
             headers.put(HttpHeaders.COOKIE, cookies);
             request = new HttpEntity<>(params, headers);
+        } else {
+            request = new HttpEntity<>(params);
         }
         //拼接url
         url = Consts.getUrl(apiHost, url);

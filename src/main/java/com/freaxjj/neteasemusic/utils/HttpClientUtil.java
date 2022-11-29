@@ -39,7 +39,7 @@ public class HttpClientUtil {
     public <T> T doPost(String url, Class<T> resp, Map<String, ?> params){
         T result=null;
         try {
-            result=restTemplate.postForObject(url, params, resp);
+            result=restTemplate.postForObject(url, null, resp, params);
         }catch (Exception e){
             log.error("请求异常："+e.getMessage());
         }
