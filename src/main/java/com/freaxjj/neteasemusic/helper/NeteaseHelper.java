@@ -143,7 +143,7 @@ public class NeteaseHelper {
         log.info("当前时间戳：{}", System.currentTimeMillis());
         //加时间戳，防止netease api缓存
         params.put("timestamp", System.currentTimeMillis());
-//        params.put("realIP", "138.2.45.55");
+        params.put("realIP", "116.25.146.177");
         HttpEntity<Map<String, Object>> request;
         //跨域需要设置cookie
         if (!Consts.URL_LOGIN.equals(url)) {
@@ -190,9 +190,5 @@ public class NeteaseHelper {
         } else {
             throw new Exception("请求接口" + url + "失败！接口返回：" + JSON.toJSONString(resp));
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
     }
 }
