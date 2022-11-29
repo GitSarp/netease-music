@@ -36,10 +36,10 @@ public class HttpClientUtil {
         return result;
     }
 
-    public <T> T doPost(String url, Class<T> resp, Map<String, ?> params){
+    public <T> T doPost(String url, Object request, Class<T> resp, Map<String, ?> params) {
         T result=null;
         try {
-            result=restTemplate.postForObject(url, null, resp, params);
+            result=restTemplate.postForObject(url, request, resp, params);
         }catch (Exception e){
             log.error("请求异常："+e.getMessage());
         }

@@ -159,11 +159,8 @@ public class NeteaseHelper {
         if (HttpMethod.GET.equals(httpMethod)) {
             resp = httpClientUtil.doGet(url, tClass, params);
         } else if (HttpMethod.POST.equals(httpMethod)) {
-            if (Objects.isNull(request)) {
-                resp = httpClientUtil.doPost(url, tClass, params);
-            } else {
-                resp = httpClientUtil.doPost(url, request, tClass);
-            }
+            //body和url中均设置参数
+            resp = httpClientUtil.doPost(url, request, tClass, params);
         }
 
         Map<String, Object> respMap = (Map<String, Object>) JSON.toJSON(resp);
