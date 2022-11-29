@@ -18,6 +18,8 @@ netease:
   password: 密码或md5加密后密码
   uid: 你的用户id
   apiHost: netease api服务地址，如http://localhost:3000
+  #可选配置,避免登录接口报错
+  cookie: "xxxx"
 
 #鉴权 不配置则不鉴权
 allowd:

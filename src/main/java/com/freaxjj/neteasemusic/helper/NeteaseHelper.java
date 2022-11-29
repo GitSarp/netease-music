@@ -34,6 +34,10 @@ public class NeteaseHelper {
         this.neteaseConfig = neteaseConfig;
         this.httpClientUtil = httpClientUtil;
         this.apiHost = neteaseConfig.getApiHost();
+        //配置cookie,避免登录接口报错
+        String cookieStr = neteaseConfig.getCookie();
+        log.info("设置初始cookie：{}", cookieStr);
+        cookies = Arrays.stream(cookieStr.split(";;")).collect(Collectors.toList());
     }
 
     /**
@@ -140,7 +144,7 @@ public class NeteaseHelper {
     }
 
     private <T> T doRequest(HttpMethod httpMethod, String url, Class<T> tClass, Map<String, Object> params) throws Exception {
-        log.info("当前时间戳：{}", System.currentTimeMillis());
+        log.debug("当前时间戳：{}", System.currentTimeMillis());
         //加时间戳，防止netease api缓存
         params.put("timestamp", System.currentTimeMillis());
         params.put("realIP", "116.25.146.177");

@@ -20,4 +20,6 @@ public class NeteaseConfig {
     private String uid;
 
     private String apiHost;
+
+    private String cookie;
 }
