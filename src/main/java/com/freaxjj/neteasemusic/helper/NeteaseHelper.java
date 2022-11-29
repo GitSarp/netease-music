@@ -142,8 +142,8 @@ public class NeteaseHelper {
     private <T> T doRequest(HttpMethod httpMethod, String url, Class<T> tClass, Map<String, Object> params) throws Exception {
         //加时间戳，防止netease api缓存
         params.put("timestamp", System.currentTimeMillis());
-//        params.put("realIP", "xxx");
-        HttpEntity<Map<String, Object>> request = null;
+        params.put("realIP", "112.32.28.111");
+        HttpEntity<Map<String, Object>> request;
         //跨域需要设置cookie
         if (!Consts.URL_LOGIN.equals(url)) {
             HttpHeaders headers = new HttpHeaders();
