@@ -1,6 +1,7 @@
 package com.freaxjj.neteasemusic.service;
 
 import com.alibaba.fastjson.JSON;
+import com.freaxjj.neteasemusic.config.NeteaseConfig;
 import com.freaxjj.neteasemusic.consts.Consts;
 import com.freaxjj.neteasemusic.dto.Artist;
 import com.freaxjj.neteasemusic.dto.Song;
@@ -114,5 +115,16 @@ public class NeteaseService {
             favoriteSong.setUrl(url);
         }
         return favoriteSong;
+    }
+
+    public String refreshCookie(NeteaseConfig neteaseConfig) {
+        if(Objects.nonNull(neteaseConfig)) {
+            NeteaseConfig config = neteaseHelper.getNeteaseConfig();
+            if(config.getPassword().equals(neteaseConfig.getPassword())) {
+                config.setCookie(neteaseConfig.getCookie());
+                return "success";
+            }
+        }
+        return "failed";
     }
 }

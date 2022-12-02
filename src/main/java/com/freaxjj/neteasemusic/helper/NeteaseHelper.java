@@ -3,7 +3,13 @@ package com.freaxjj.neteasemusic.helper;
 import com.alibaba.fastjson.JSON;
 import com.freaxjj.neteasemusic.config.NeteaseConfig;
 import com.freaxjj.neteasemusic.consts.Consts;
-import com.freaxjj.neteasemusic.dto.*;
+import com.freaxjj.neteasemusic.dto.PlayList;
+import com.freaxjj.neteasemusic.dto.PlayListDetail;
+import com.freaxjj.neteasemusic.dto.Song;
+import com.freaxjj.neteasemusic.dto.SongDetail;
+import com.freaxjj.neteasemusic.dto.SongURL;
+import com.freaxjj.neteasemusic.dto.SongURLS;
+import com.freaxjj.neteasemusic.dto.Track;
 import com.freaxjj.neteasemusic.utils.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +20,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +48,10 @@ public class NeteaseHelper {
         String cookieStr = neteaseConfig.getCookie();
         log.info("设置初始cookie：{}", cookieStr);
         cookies = Arrays.stream(cookieStr.split(";;")).collect(Collectors.toList());
+    }
+
+    public NeteaseConfig getNeteaseConfig() {
+        return neteaseConfig;
     }
 
     /**
