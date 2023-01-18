@@ -9,23 +9,23 @@ spring:
     name: netease-music
   profiles:
     active: prod
+    include: prod
 
-
-  config:
-    import:
-      - optional:nacos:netease-music.yaml
-  cloud:
-    nacos:
-      config:
-        server-addr: 152.69.206.xx:8848
-        username:
-        password:
-        # 必须使用id
-        namespace:
-        file-extension: yaml
-      discovery:
-        server-addr: 152.69.206.xx:8848
-        username:
-        password:
-        namespace:
-#        ip: 152.69.206.48
+#bootstrap-prod.yml
+#  config:
+#    import:
+#      - optional:nacos:netease-music.yaml
+#  cloud:
+#    nacos:
+#      config:
+#        server-addr: xxx.xx.xxx.xx:8848
+#        username:
+#        password:
+#        # 必须使用id
+#        namespace:
+#        file-extension: yaml
+#      discovery:
+#        server-addr: xxx.xx.xxx.xx:8848
+#        username:
+#        password:
+#        namespace:

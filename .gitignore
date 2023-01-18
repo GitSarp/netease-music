@@ -33,3 +33,4 @@ build/
 .vscode/
 
 application-prod.yml
+bootstrap-prod.yml
