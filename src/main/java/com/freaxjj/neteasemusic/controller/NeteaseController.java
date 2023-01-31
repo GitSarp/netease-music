@@ -2,6 +2,7 @@ package com.freaxjj.neteasemusic.controller;
 
 import com.freaxjj.neteasemusic.config.AppConfig;
 import com.freaxjj.neteasemusic.config.NeteaseConfig;
+import com.freaxjj.neteasemusic.helper.SDKHelper;
 import com.freaxjj.neteasemusic.service.NeteaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,14 @@ public class NeteaseController {
     @PostMapping("/refreshCookie")
     public String refreshCookie(@RequestBody NeteaseConfig neteaseConfig) {
         return neteaseService.refreshCookie(neteaseConfig);
+    }
+
+
+    @Autowired
+    private SDKHelper sdkHelper;
+    @GetMapping("/login")
+    public String loginBySDK() {
+        sdkHelper.login();
+        return "ok";
     }
 }

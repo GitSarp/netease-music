@@ -1,5 +1,6 @@
 package com.freaxjj.neteasemusic.runner;
 
+import com.freaxjj.neteasemusic.helper.SDKHelper;
 import com.freaxjj.neteasemusic.service.NeteaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,13 @@ import org.springframework.stereotype.Component;
 public class StartRunner implements ApplicationRunner {
     @Autowired
     private NeteaseService neteaseService;
+    @Autowired
+    private SDKHelper sdkHelper;
 
     @Override
     public void run(ApplicationArguments args) {
         //登录
-        neteaseService.login();
+        //neteaseService.login();
+        sdkHelper.login();
     }
 }
