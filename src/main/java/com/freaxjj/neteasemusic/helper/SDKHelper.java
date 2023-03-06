@@ -14,11 +14,16 @@ public class SDKHelper {
     private NeteaseConfig neteaseConfig;
 
     public void login() {
-        final NeteaseCloudMusicInfo neteaseCloudMusicInfo = new NeteaseCloudMusicInfo();// 得到封装网易云音乐信息的工具类
-        final JSONObject jsonObject = new JSONObject();
-        jsonObject.put("phone", neteaseConfig.getPhone());
-        jsonObject.put("md5_password", neteaseConfig.getPassword());
-        final JSONObject loginRes = neteaseCloudMusicInfo.login(jsonObject);
-        log.info(loginRes.toJSONString());
+        try {
+            final NeteaseCloudMusicInfo neteaseCloudMusicInfo = new NeteaseCloudMusicInfo();// 得到封装网易云音乐信息的工具类
+            neteaseCloudMusicInfo.setCookieString(neteaseConfig.getCookie());
+            final JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", neteaseConfig.getPhone());
+            jsonObject.put("md5_password", neteaseConfig.getPassword());
+            final JSONObject loginRes = neteaseCloudMusicInfo.login(jsonObject);
+            log.info(loginRes.toJSONString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

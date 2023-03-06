@@ -161,7 +161,7 @@ public class NeteaseHelper {
         log.debug("当前时间戳：{}", System.currentTimeMillis());
         //加时间戳，防止netease api缓存
         params.put("timestamp", System.currentTimeMillis());
-        params.put("realIP", "116.25.146.177");
+        //params.put("realIP", "116.25.146.177");
         HttpEntity<Map<String, Object>> request;
         //跨域需要设置cookie
         if (!Consts.URL_LOGIN.equals(url)) {

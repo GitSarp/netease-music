@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.freaxjj</groupId>
     <artifactId>netease-music</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>20230306-arm64</version>
     <name>netease-music</name>
     <description>netease music service</description>
     <properties>

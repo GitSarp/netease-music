@@ -18,13 +18,13 @@ import org.springframework.stereotype.Component;
 public class StartRunner implements ApplicationRunner {
     @Autowired
     private NeteaseService neteaseService;
-    @Autowired
-    private SDKHelper sdkHelper;
+//    @Autowired
+//    private SDKHelper sdkHelper;
 
     @Override
     public void run(ApplicationArguments args) {
         //登录
-        //neteaseService.login();
-        sdkHelper.login();
+        neteaseService.login();
+        //sdkHelper.login();
     }
 }
