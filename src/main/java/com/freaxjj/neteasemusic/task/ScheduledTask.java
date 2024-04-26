@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * @Author: freaxjj
@@ -22,6 +23,7 @@ public class ScheduledTask {
     /**
      * 定时获取歌曲url
      */
+    @Async
     @Scheduled(fixedRate = 580000)
     public void getSongsTimely() {
         //等待登录后获取歌曲url

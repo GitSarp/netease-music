@@ -5,7 +5,7 @@ import com.freaxjj.neteasemusic.dto.PlayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +17,14 @@ import java.util.Map;
 @Slf4j
 @Component
 public class HttpClientUtil {
-    private static RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate; 
+
+    static {
+	    SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+	    factory.setConnectTimeout(60000);
+	    factory.setReadTimeout(300000);
+	    restTemplate = new RestTemplate(factory);
+    }
 
     public <T> T doGet(String url, Class<T> resp, Map<String, ?> params){
         T result=null;
